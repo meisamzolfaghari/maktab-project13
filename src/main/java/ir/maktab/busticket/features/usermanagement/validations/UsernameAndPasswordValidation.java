@@ -16,7 +16,7 @@ public class UsernameAndPasswordValidation {
         new NullableObjectValidation().validate(user.getUsername(), ExceptionMessage.USERNAME_REQUIRED.getMessage());
         new NullableObjectValidation().validate(user.getPassword() , ExceptionMessage.PASSWORD_REQUIRED.getMessage());
         new NullableObjectValidation().validate(
-                UserRepository.getInstance().getUserByUsernameAndPassword(user),
+                UserRepository.getInstance().getUserByUsernameAndPassword(user).get(0),
                 ExceptionMessage.USERNAME_OR_PASSWORD_INCORRECT.getMessage()
         );
     }

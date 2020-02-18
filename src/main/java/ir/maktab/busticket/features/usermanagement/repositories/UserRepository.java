@@ -26,7 +26,7 @@ public class UserRepository extends CrudRepository<User, Long> {
         return User.class;
     }
 
-    public User getUserByUsernameAndPassword(User user) {
+    public List<User> getUserByUsernameAndPassword(User user) {
         if (!getSession().getTransaction().isActive())
             getSession().getTransaction().begin();
 
@@ -40,8 +40,7 @@ public class UserRepository extends CrudRepository<User, Long> {
 
         getSession().getTransaction().commit();
 
-        user = users.get(0);
-        return user;
+        return users;
     }
 
 }
