@@ -3,6 +3,9 @@ package ir.maktab.busticket.features.usermanagement.repositories;
 import ir.maktab.busticket.config.database.HibernateUtil;
 import ir.maktab.busticket.features.share.repositories.CrudRepository;
 import ir.maktab.busticket.features.usermanagement.models.User;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class UserRepository extends CrudRepository<User, Long> {
 
@@ -22,4 +25,23 @@ public class UserRepository extends CrudRepository<User, Long> {
     protected Class<User> getEntityClass() {
         return User.class;
     }
+
+    public User getUserByUsernameAndPassword(User user) {
+        if (!getSession().getTransaction().isActive())
+            getSession().getTransaction().begin();
+
+        Query query = getSession().createQuery("from User where username= :username and password= :password");
+        query.setParameter("username", user.getUsername());
+        query.setParameter("password", user.getPassword());
+        List<User> users = query.list();
+
+        if (users.size() != 1)
+            return null;
+
+        getSession().getTransaction().commit();
+
+        user = users.get(0);
+        return user;
+    }
+
 }

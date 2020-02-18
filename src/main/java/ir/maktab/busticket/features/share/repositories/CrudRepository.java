@@ -95,4 +95,5 @@ public abstract class CrudRepository<Entity, ID extends Serializable> {
         session.getTransaction().commit();
         return result;
     }
+
 }
